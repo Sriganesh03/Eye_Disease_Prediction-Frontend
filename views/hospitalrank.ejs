@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Success Rate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+      table {
+    font-size: 15px;
+    margin-left: 10px;
+      }
+
+
+      .table {
+        font-family: "Fira Sans", sans-serif;
+        border-collapse: collapse;
+      }
+
+      .table th {
+        text-align: left;
+        border-top: 2px solid #009578;
+        border-bottom: 2px solid #009578;
+      }
+
+      .table td,
+      .search-input {
+        font-size: 1em;
+        padding: 0.6em 1em;
+      }
+
+      .search-input {
+        border: none;
+        outline: none;
+        font-family: "Fira Sans", sans-serif;
+      }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 20px; margin-top: 20px">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/">EyeDetect</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse d-grid gap-2 d-md-flex justify-content-md-end" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" onclick="login()">Prediction</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/precaution">Precaution</a>
+                  </li>
+                  <li class="nav-item me-3">
+                    <a class="nav-link active" href="/hospitalrank">High Rated Hospitals</a>
+                  </li>
+                  <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-light">Login</button>
+                    <button type="button" class="btn btn-outline-light">Sign Up</button>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    
+    <h1 style="text-align: center; margin:50px 20px">Hospital With Most Success Rate</h1>
+
+    <table class="table table-striped table-hover" style="float: center;">
+        <thead>
+          <tr>
+            <th>
+                <input type="text" class="search-input" placeholder="Hospital Rank">
+            </th>
+            <th>
+              <input type="text" class="search-input" placeholder="Hospital Name">
+            </th>
+            <th>
+              <input type="text" class="search-input" placeholder="City">
+            </th>
+            <th>
+              <input type="text" class="search-input" placeholder="State">
+            </th>
+            <th>
+                <input type="text" class="search-input" placeholder="Top rated doctor there">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% var i=1; details.forEach(item => { %>
+            <tr>
+              <td><%= item.rank%></td>
+              <td><%= item.name%></td>
+              <td><%= item.city%></td>
+              <td><%= item.state%></td>
+              <td><%= item.top_doctor%></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      </div>
+
+      <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".search-input").forEach((inputField) => {
+      const tableRows = inputField
+        .closest("table")
+        .querySelectorAll("tbody > tr");
+      const headerCell = inputField.closest("th");
+      const otherHeaderCells = headerCell.closest("tr").children;
+      const columnIndex = Array.from(otherHeaderCells).indexOf(headerCell);
+      const searchableCells = Array.from(tableRows).map(
+        (row) => row.querySelectorAll("td")[columnIndex]
+      );
+  
+      inputField.addEventListener("input", () => {
+        const searchQuery = inputField.value.toLowerCase();
+  
+        for (const tableCell of searchableCells) {
+          const row = tableCell.closest("tr");
+          const value = tableCell.textContent.toLowerCase().replace(",", "");
+  
+          row.style.visibility = null;
+  
+          if (value.search(searchQuery) === -1) {
+            row.style.visibility = "collapse";
+          }
+        }
+      });
+    });
+  });
+
+  
+      </script>
+      <script>
+        function login() {
+          window.location.href = "https://dev-tj2q2qbq8rq327er.us.auth0.com/authorize?audience=https://myeye.com&response_type=code&client_id=R7Eur5xqZG1VDiO3cbPO37GvNHmH5uFu&redirect_uri=http://localhost:8501/&scope=openid%20profile%20email";
+          //window.location.href = "https://dev-7qgpx4rqrlz3ides.us.auth0.com/authorize?audience=https://mymodelapi.com&response_type=code&client_id=zK8yXbtLJzNrwg4N2klxYhqKBaWTPTJp&redirect_uri=http://127.0.0.1:5500/home.html&scope=openid%20profile%20email";
+            }
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>
